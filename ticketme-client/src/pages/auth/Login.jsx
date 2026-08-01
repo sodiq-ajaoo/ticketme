@@ -75,6 +75,7 @@ function Login() {
               className="w-full bg-transparent p-4 outline-none"
               placeholder="Enter your email"
               value={email}
+              disabled={loading}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -93,6 +94,7 @@ function Login() {
               className="w-full bg-transparent p-4 outline-none"
               placeholder="Enter your password"
               value={password}
+              disabled={loading}
               onChange={(e) => setPassword(e.target.value)}
             />
 

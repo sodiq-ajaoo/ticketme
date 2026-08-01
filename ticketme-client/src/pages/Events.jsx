@@ -5,14 +5,27 @@ import Spinner from '../components/ui/Spinner';
 
 function Events() {
   const [events, setEvents] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
+
   const [category, setCategory] = useState('');
   const [stateFilter, setStateFilter] = useState('');
-  const [sort, setSort] = useState('-startDate');
+  const [sort, setSort] = useState('-createdAt');
+
+  // Debounce Search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearch(searchInput);
+      setPage(1);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]);
 
   useEffect(() => {
     fetchEvents();
@@ -22,37 +35,49 @@ function Events() {
     try {
       setLoading(true);
 
-      const res = await api.get(
-        `/events?page=${page}&limit=12&keyword=${search}&category=${category}&state=${stateFilter}&sort=${sort}`,
-      );
+      // const res = await api.get('/events', {
+      //   params: {
+      //     page,
+      //     limit: 12,
+      //     search,
+      //     category,
+      //     state: stateFilter,
+      //     sort,
+      //   },
+      // });
+
+      const res = await api.get('/events', {
+        params: {
+          page,
+          limit: 12,
+          keyword: search,
+          category,
+          state: stateFilter,
+          sort,
+        },
+      });
 
       console.log(res.data);
 
-      setEvents(res.data.data.events);
-      setTotalPages(res.data.totalPages);
+      setEvents(res.data.data.events || []);
 
-      // setEvents(res.data.data.events);
-
-      // Backend will provide this after we update it
-      // setTotalPages(res.data.totalPages || 1);
+      setTotalPages(
+        res.data.pagination?.totalPages || res.data.totalPages || 1,
+      );
 
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   }
 
-  console.log(events);
-
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
-      {/* Heading */}
-
       <div className="mb-10">
         <h1 className="text-5xl font-black">Browse Events</h1>
 
@@ -61,23 +86,16 @@ function Events() {
         </p>
       </div>
 
-      {/* Search & Filters */}
+      {/* Filters */}
 
       <div className="mb-10 grid gap-4 md:grid-cols-4">
-        {/* Search */}
-
         <input
           type="text"
           placeholder="Search events..."
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(1);
-          }}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           className="rounded-xl border border-slate-300 p-3 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-900"
         />
-
-        {/* Category */}
 
         <select
           value={category}
@@ -96,8 +114,6 @@ function Events() {
           <option value="theatre">Theatre</option>
         </select>
 
-        {/* State */}
-
         <input
           type="text"
           placeholder="State"
@@ -109,8 +125,6 @@ function Events() {
           className="rounded-xl border border-slate-300 p-3 focus:border-blue-600 focus:outline-none dark:border-slate-700 dark:bg-slate-900"
         />
 
-        {/* Sort */}
-
         <select
           value={sort}
           onChange={(e) => {
@@ -121,31 +135,28 @@ function Events() {
         >
           <option value="-createdAt">Newest</option>
           <option value="startDate">Event Date</option>
-          <option value="ticketTypes.price">Lowest Price</option>
-          <option value="-ticketTypes.price">Highest Price</option>
+          <option value="price">Lowest Price</option>
+          <option value="-price">Highest Price</option>
         </select>
       </div>
-
-      {/* Loading */}
 
       {loading ? (
         <Spinner text="Loading events..." />
       ) : events.length === 0 ? (
         <div className="py-24 text-center">
-          <h2 className="text-3xl font-bold text-slate-800 dark:text-white">
-            No events found
-          </h2>
+          <h2 className="text-3xl font-bold">No matching events</h2>
 
           <p className="mt-3 text-slate-500">
-            Try changing your search, category or state.
+            Try changing your search or filters.
           </p>
 
           <button
             onClick={() => {
+              setSearchInput('');
               setSearch('');
               setCategory('');
               setStateFilter('');
-              setSort('-startDate');
+              setSort('-createdAt');
               setPage(1);
             }}
             className="mt-8 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
@@ -155,19 +166,24 @@ function Events() {
         </div>
       ) : (
         <>
+          <div className="mb-6 flex items-center justify-between">
+            <p className="text-slate-500">
+              {events.length} event
+              {events.length !== 1 && 's'} found
+            </p>
+          </div>
+
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {events.map((event) => (
               <EventCard key={event._id} event={event} />
             ))}
           </div>
 
-          {/* Pagination */}
-
           <div className="mt-12 flex items-center justify-center gap-3">
             <button
               disabled={page === 1}
               onClick={() => setPage((p) => p - 1)}
-              className="rounded-xl border px-5 py-3 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-slate-800"
+              className="rounded-xl border px-5 py-3 disabled:opacity-40"
             >
               Previous
             </button>
@@ -176,10 +192,8 @@ function Events() {
               <button
                 key={i}
                 onClick={() => setPage(i + 1)}
-                className={`h-12 w-12 rounded-xl font-bold transition ${
-                  page === i + 1
-                    ? 'bg-blue-600 text-white'
-                    : 'border hover:bg-slate-100 dark:hover:bg-slate-800'
+                className={`h-12 w-12 rounded-xl ${
+                  page === i + 1 ? 'bg-blue-600 text-white' : 'border'
                 }`}
               >
                 {i + 1}
@@ -189,7 +203,7 @@ function Events() {
             <button
               disabled={page === totalPages}
               onClick={() => setPage((p) => p + 1)}
-              className="rounded-xl border px-5 py-3 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-slate-800"
+              className="rounded-xl border px-5 py-3 disabled:opacity-40"
             >
               Next
             </button>

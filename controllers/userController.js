@@ -128,6 +128,26 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateUser = catchAsync(async (req, res, next) => {
+  const filteredBody = filterObj(req.body, 'name', 'phone', 'role', 'active');
+
+  const user = await User.findByIdAndUpdate(req.params.id, filteredBody, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!user) {
+    return next(new AppError('No user found with that ID.', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  });
+});
+
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();

@@ -27,8 +27,43 @@ function Register() {
     });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     setLoading(true);
+  //     setError('');
+  //     setSuccess('');
+
+  //     if (formData.password !== formData.passwordConfirm) {
+  //       setError('Passwords do not match.');
+  //       return;
+  //     }
+
+  //     const data = await registerUser(formData);
+
+  //     setSuccess(
+  //       data.message ||
+  //         'Account created successfully. Please check your email to verify your account.',
+  //     );
+
+  //     setTimeout(() => {
+  //       navigate('/login');
+  //     }, 2500);
+  //   } catch (err) {
+  //     setError(err.response?.data?.message || 'Registration failed.');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.password !== formData.passwordConfirm) {
+      setError('Passwords do not match.');
+      return;
+    }
 
     try {
       setLoading(true);
@@ -51,7 +86,6 @@ function Register() {
       setLoading(false);
     }
   };
-
   return (
     <>
       <div className="mb-10 text-center">
@@ -88,6 +122,7 @@ function Register() {
               className="w-full bg-transparent p-4 outline-none"
               value={formData.name}
               onChange={handleChange}
+              disabled={loading}
             />
           </div>
         </div>
@@ -105,6 +140,7 @@ function Register() {
               className="w-full bg-transparent p-4 outline-none"
               value={formData.email}
               onChange={handleChange}
+              disabled={loading}
             />
           </div>
         </div>
@@ -122,6 +158,8 @@ function Register() {
               className="w-full bg-transparent p-4 outline-none"
               value={formData.phone}
               onChange={handleChange}
+              disabled={loading}
+              // disabled={loading}
             />
           </div>
         </div>
@@ -139,6 +177,7 @@ function Register() {
               className="w-full bg-transparent p-4 outline-none"
               value={formData.password}
               onChange={handleChange}
+              disabled={loading}
             />
 
             <button
@@ -163,6 +202,7 @@ function Register() {
               className="w-full bg-transparent p-4 outline-none"
               value={formData.passwordConfirm}
               onChange={handleChange}
+              disabled={loading}
             />
           </div>
         </div>

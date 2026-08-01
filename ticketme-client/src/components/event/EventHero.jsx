@@ -1,39 +1,50 @@
-import { CalendarDays, MapPin, Tag, User } from 'lucide-react';
+import { CalendarDays, MapPin, Tag, User, Star } from 'lucide-react';
 
 function EventHero({ event }) {
   if (!event) return null;
 
   return (
-    <section className="relative">
-      {/* Cover Image */}
-
-      <div className="h-[320px] overflow-hidden md:h-[420px]">
+    <section className="relative overflow-hidden">
+      {/* Cover */}
+      <div className="h-[340px] md:h-[480px]">
         <img
           src={event.imageCover}
           alt={event.name}
           className="h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
       </div>
 
-      {/* Event Info */}
-
+      {/* Content */}
       <div className="absolute inset-0 flex items-end">
         <div className="mx-auto w-full max-w-7xl px-6 pb-10 text-white">
-          <span className="inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold">
-            <Tag size={16} className="mr-2" />
-            {event.category}
-          </span>
+          {/* Badges */}
+          <div className="flex flex-wrap gap-3">
+            <span className="inline-flex items-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold">
+              <Tag size={16} className="mr-2" />
+              {event.category}
+            </span>
 
-          <h1 className="mt-5 max-w-3xl text-4xl font-black md:text-6xl">
+            {event.featured && (
+              <span className="inline-flex items-center rounded-full bg-yellow-500 px-4 py-2 text-sm font-semibold text-white">
+                <Star size={16} className="mr-2" />
+                Featured
+              </span>
+            )}
+          </div>
+
+          {/* Title */}
+          <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight md:text-6xl">
             {event.name}
           </h1>
 
-          <p className="mt-4 max-w-2xl text-lg text-slate-200">
+          {/* Summary */}
+          <p className="mt-4 max-w-3xl text-lg text-slate-200">
             {event.summary}
           </p>
 
+          {/* Info */}
           <div className="mt-8 flex flex-wrap gap-6 text-sm md:text-base">
             <div className="flex items-center gap-2">
               <CalendarDays size={18} />
@@ -42,13 +53,17 @@ function EventHero({ event }) {
 
             <div className="flex items-center gap-2">
               <MapPin size={18} />
-              {event.venue}, {event.city}, {event.state}
+              {event.venue}
+              {event.city && ` • ${event.city}`}
+              {event.state && `, ${event.state}`}
             </div>
 
-            <div className="flex items-center gap-2">
-              <User size={18} />
-              {event.owner?.name}
-            </div>
+            {event.owner?.name && (
+              <div className="flex items-center gap-2">
+                <User size={18} />
+                {event.owner.name}
+              </div>
+            )}
           </div>
         </div>
       </div>

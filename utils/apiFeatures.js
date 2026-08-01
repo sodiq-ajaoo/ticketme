@@ -31,15 +31,56 @@ class APIFeatures {
     this.query = this.query.find(JSON.parse(queryStr));
 
     // Search
+    // if (keyword) {
+    //   this.query = this.query.find({
+    //     $or: [
+    //       { name: { $regex: keyword, $options: 'i' } },
+    //       { summary: { $regex: keyword, $options: 'i' } },
+    //       { description: { $regex: keyword, $options: 'i' } },
+    //       { state: { $regex: keyword, $options: 'i' } },
+    //       { city: { $regex: keyword, $options: 'i' } },
+    //       { venue: { $regex: keyword, $options: 'i' } },
+    //       { 'location.address': { $regex: keyword, $options: 'i' } },
+    //     ],
+    //   });
+    // }
+
+    // Search
+    // if (keyword) {
+    //   this.query = this.query.find({
+    //     $or: [
+    //       { name: { $regex: keyword, $options: 'i' } },
+    //       { summary: { $regex: keyword, $options: 'i' } },
+    //       { description: { $regex: keyword, $options: 'i' } },
+    //       { venue: { $regex: keyword, $options: 'i' } },
+    //     ],
+    //   });
+    // }
+
     if (keyword) {
       this.query = this.query.find({
         $or: [
           { name: { $regex: keyword, $options: 'i' } },
           { summary: { $regex: keyword, $options: 'i' } },
           { description: { $regex: keyword, $options: 'i' } },
+          { state: { $regex: keyword, $options: 'i' } },
+          { city: { $regex: keyword, $options: 'i' } },
+          { venue: { $regex: keyword, $options: 'i' } },
+          { 'location.address': { $regex: keyword, $options: 'i' } },
+          { 'location.description': { $regex: keyword, $options: 'i' } },
         ],
       });
     }
+
+    //     $or: [
+    //   { name: { $regex: keyword, $options: 'i' } },
+    //   { summary: { $regex: keyword, $options: 'i' } },
+    //   { description: { $regex: keyword, $options: 'i' } },
+    //   { state: { $regex: keyword, $options: 'i' } },
+    //   { city: { $regex: keyword, $options: 'i' } },
+    //   { venue: { $regex: keyword, $options: 'i' } },
+    //   { "location.address": { $regex: keyword, $options: 'i' } },
+    // ]
 
     return this;
   }

@@ -31,7 +31,7 @@ router
 router
   .route('/:id')
   .get(userController.getUser)
-
+  .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
 router.patch('/updateMe', upload.single('photo'), userController.updateMe);

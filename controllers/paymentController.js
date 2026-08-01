@@ -679,13 +679,13 @@ exports.verifyPayment = catchAsync(async (req, res, next) => {
 
   // await payment.save();
 
-  for (const ticket of tickets) {
-    ticket.status = 'paid';
-    ticket.paymentReference = payment.reference;
-    ticket.payment = payment._id;
+  // for (const ticket of tickets) {
+  //   ticket.status = 'paid';
+  //   ticket.paymentReference = payment.reference;
+  //   ticket.payment = payment._id;
 
-    await ticket.save();
-  }
+  //   await ticket.save();
+  // }
 
   // Fetch purchased tickets
   const tickets = await Ticket.find({
@@ -694,17 +694,30 @@ exports.verifyPayment = catchAsync(async (req, res, next) => {
     .populate('buyer', 'name email')
     .populate('event', 'name');
 
+  payment.status = 'success';
+  payment.paidAt = new Date();
+
+  await payment.save();
+
+  for (const ticket of tickets) {
+    ticket.status = 'paid';
+    ticket.paymentReference = payment.reference;
+    ticket.payment = payment._id;
+
+    await ticket.save();
+  }
+
   if (!tickets.length) {
     return next(new AppError('No tickets found for this payment.', 404));
   }
 
   // Mark every ticket as paid
-  for (const ticket of tickets) {
-    ticket.status = 'paid';
-    ticket.paymentReference = payment.reference;
+  // for (const ticket of tickets) {
+  //   ticket.status = 'paid';
+  //   ticket.paymentReference = payment.reference;
 
-    await ticket.save();
-  }
+  //   await ticket.save();
+  // }
 
   // Generate QR codes
   const ticketsWithQr = await Promise.all(
