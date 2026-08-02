@@ -4,18 +4,22 @@ import { Link } from 'react-router-dom';
 function EventRow({ event, onAssign, onDelete }) {
   return (
     <tr className="border-t border-slate-200 dark:border-slate-800">
-      <td className="p-5 font-semibold">{event.title}</td>
+      <td className="p-5 font-semibold">{event.name}</td>
 
       <td className="p-5">{event.venue}</td>
 
-      <td className="p-5">{event.date}</td>
+      <td className="p-5">{new Date(event.startDate).toLocaleDateString()}</td>
 
-      <td className="p-5">{event.organizer}</td>
+      <td className="p-5">
+        {event.organizers?.length > 0
+          ? event.organizers.map((org) => org.name).join(', ')
+          : 'Not Assigned'}
+      </td>
 
       <td className="p-5">
         <span
           className={`rounded-full px-4 py-2 text-sm font-semibold ${
-            event.status === 'Published'
+            event.status === 'published'
               ? 'bg-green-100 text-green-700'
               : 'bg-yellow-100 text-yellow-700'
           }`}
@@ -27,7 +31,7 @@ function EventRow({ event, onAssign, onDelete }) {
       <td className="p-5">
         <div className="flex justify-end gap-3">
           <Link
-            to={`/admin/events/${event.id}/edit`}
+            to={`/admin/events/${event._id}/edit`}
             className="rounded-xl bg-blue-100 p-3 text-blue-600 hover:bg-blue-200"
           >
             <Pencil size={18} />

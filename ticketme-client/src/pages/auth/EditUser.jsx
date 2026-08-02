@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import api from '../services/api';
-import Spinner from '../components/ui/Spinner';
+import api from '../../services/api';
+import Spinner from '../../components/ui/Spinner';
 
 function EditUser() {
   const { id } = useParams();

@@ -257,6 +257,11 @@ const eventSchema = new mongoose.Schema(
       min: [0, 'Views cannot be negative'],
     },
 
+    country: {
+      type: String,
+      default: 'Nigeria',
+    },
+
     isDeleted: {
       type: Boolean,
       default: false,

@@ -160,7 +160,11 @@ exports.getAllEvents = catchAsync(async (req, res, next) => {
     .limitFields()
     .paginate();
 
-  const events = await features.query;
+  // const events = await features.query;
+  const events = await features.query.populate(
+    'organizers',
+    'name email photo',
+  );
 
   res.status(200).json({
     status: 'success',
@@ -194,8 +198,32 @@ exports.createEvent = catchAsync(async (req, res, next) => {
   console.log(req.body.ticketTypes);
   console.log(typeof req.body.ticketTypes);
 
+  // if (req.body.ticketTypes) {
+  //   req.body.ticketTypes = JSON.parse(req.body.ticketTypes);
+  // }
+
+  // if (req.body.location) {
+  //   req.body.location = JSON.parse(req.body.location);
+  // }
+
+  // if (req.files.imageCover) {
+  //   req.body.imageCover = req.files.imageCover[0].path;
+  // }
+
+  // if (req.files.images) {
+  //   req.body.images = req.files.images.map((file) => file.path);
+  // }
+
   if (req.body.ticketTypes) {
     req.body.ticketTypes = JSON.parse(req.body.ticketTypes);
+  }
+
+  if (req.body.location) {
+    req.body.location = JSON.parse(req.body.location);
+  }
+
+  if (req.body.organizers) {
+    req.body.organizers = JSON.parse(req.body.organizers);
   }
 
   if (req.files.imageCover) {
@@ -205,6 +233,8 @@ exports.createEvent = catchAsync(async (req, res, next) => {
   if (req.files.images) {
     req.body.images = req.files.images.map((file) => file.path);
   }
+
+  // const newEvent = await Event.create(req.body);
 
   const newEvent = await Event.create(req.body);
 
@@ -239,6 +269,19 @@ exports.updateEvent = catchAsync(async (req, res, next) => {
     if (req.files.images) {
       req.body.images = req.files.images.map((file) => file.path);
     }
+  }
+
+  // Parse JSON fields coming from FormData
+  if (req.body.location) {
+    req.body.location = JSON.parse(req.body.location);
+  }
+
+  if (req.body.ticketTypes) {
+    req.body.ticketTypes = JSON.parse(req.body.ticketTypes);
+  }
+
+  if (req.body.organizers) {
+    req.body.organizers = JSON.parse(req.body.organizers);
   }
 
   const event = await Event.findById(req.params.id);

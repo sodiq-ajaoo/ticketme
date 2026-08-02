@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-
-import AdminLayout from '../components/admin/AdminLayout';
-import EventTable from '../components/admin/EventTable';
-
+// import AdminLayout from '../components/admin/AdminLayout';
+// import EventTable from '../components/admin/EventTable';
+import AdminLayout from './AdminLayout';
+import EventTable from './EventTable';
+import { getEvents, deleteEvent, assignOrganizer } from '../api/eventApi';
 import api from '../api/api';
-import { getAdminEvents, deleteEvent, assignOrganizer } from '../api/eventApi';
 
-function ManageEvents() {
+function Events() {
   const [events, setEvents] = useState([]);
   const [organizers, setOrganizers] = useState([]);
 
@@ -16,27 +15,52 @@ function ManageEvents() {
     loadOrganizers();
   }, []);
 
+  // const loadEvents = async () => {
+  //   const res = await getEvents();
+
+  //   console.log(res);
+  //   console.log(res.data);
+
+  //   setEvents(res.data.events);
+  //   try {
+  //     const res = await getEvents();
+  //     setEvents(res.data.events);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // const loadEvents = async () => {
+  //   try {
+  //     const res = await getEvents();
+
+  //     console.log('Events Response:', res);
+
+  //     setEvents(res.data.events || []);
+  //   } catch (err) {
+  //     console.log(err);
+  //     setEvents([]);
+  //   }
+  // };
+
   const loadEvents = async () => {
     try {
-      const res = await getAdminEvents();
+      const res = await getEvents();
 
       console.log(res);
 
-      setEvents(res.data.events);
+      setEvents(res.data.events || []);
     } catch (err) {
       console.log(err);
       setEvents([]);
     }
   };
-
   const loadOrganizers = async () => {
     try {
       const res = await api.get('/users?role=organizer');
-
-      setOrganizers(res.data.data.users || []);
+      setOrganizers(res.data.data.users);
     } catch (err) {
       console.log(err);
-      setOrganizers([]);
     }
   };
 
@@ -60,22 +84,7 @@ function ManageEvents() {
 
   return (
     <AdminLayout>
-      <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-4xl font-black">Manage Events</h1>
-
-          <p className="mt-2 text-slate-500">
-            View, edit and manage all events.
-          </p>
-        </div>
-
-        <Link
-          to="/admin/create-event"
-          className="rounded-2xl bg-blue-600 px-6 py-4 font-semibold text-white hover:bg-blue-700"
-        >
-          + Create Event
-        </Link>
-      </div>
+      <h1 className="mb-8 text-4xl font-black dark:text-white">Events</h1>
 
       <EventTable
         events={events}
@@ -87,4 +96,4 @@ function ManageEvents() {
   );
 }
 
-export default ManageEvents;
+export default Events;

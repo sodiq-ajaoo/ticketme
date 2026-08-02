@@ -20,7 +20,7 @@ import AdminDashboard from '../pages/AdminDashboard';
 import CreateEvent from '../pages/CreateEvent';
 import ManageEvents from '../pages/ManageEvents';
 import ManageUsers from '../pages/ManageUsers';
-import EditUser from '../pages/EditUser';
+import EditUser from '../pages/auth/EditUser';
 import EditEvent from '../pages/EditEvent';
 import ScanTickets from '../pages/ScanTickets';
 import TicketDetails from '../pages/TicketDetails';
@@ -28,6 +28,7 @@ import UserProfile from '../pages/UserProfile';
 import UpdatePassword from '../pages/UpdatePassword';
 import DeleteAccount from '../pages/DeleteAccount';
 import ManageOrganizers from '../pages/ManageOrganizers';
+import AssignOrganizer from '../pages/AssignOrganizer';
 function AppRoutes() {
   return (
     <Routes>
@@ -184,6 +185,24 @@ function AppRoutes() {
           }
         />
       </Route>
+
+      <Route
+        path="/admin/organizers"
+        element={
+          <ProtectedRoute roles={['admin']}>
+            <ManageOrganizers />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/organizers/assign"
+        element={
+          <ProtectedRoute roles={['admin']}>
+            <AssignOrganizer />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Authentication */}
       <Route element={<AuthLayout />}>
