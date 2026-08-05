@@ -1,4 +1,4 @@
-import { Pencil, Trash2, UserPlus } from 'lucide-react';
+import { Pencil, Trash2, UserPlus, BarChart3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 function EventRow({ event, onAssign, onDelete }) {
@@ -34,21 +34,28 @@ function EventRow({ event, onAssign, onDelete }) {
             to={`/admin/events/${event._id}/edit`}
             className="rounded-xl bg-blue-100 p-3 text-blue-600 hover:bg-blue-200"
           >
-            <Pencil size={18} />
+            <Pencil size={15} />
           </Link>
 
           <button
             onClick={onAssign}
             className="rounded-xl bg-purple-100 p-3 text-purple-600 hover:bg-purple-200"
           >
-            <UserPlus size={18} />
+            <UserPlus size={15} />
           </button>
+
+          <Link
+            to={`/admin/events/${event._id}/analytics`}
+            className="rounded-xl bg-green-100 p-3 text-green-600 hover:bg-green-200"
+          >
+            <BarChart3 size={15} />
+          </Link>
 
           <button
             onClick={onDelete}
             className="rounded-xl bg-red-100 p-3 text-red-600 hover:bg-red-200"
           >
-            <Trash2 size={18} />
+            <Trash2 size={15} />
           </button>
         </div>
       </td>

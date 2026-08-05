@@ -71,9 +71,33 @@ router.get(
   eventController.getEventDashboard,
 );
 
-// router
-//   .route('/')
-//   .post(authController.restrictTo('admin'), eventController.createEvent);
+router.get(
+  '/:id/sales-trend',
+  authController.protect,
+  authController.restrictTo('admin', 'organizer'),
+  eventController.getSalesTrend,
+);
+
+router.get(
+  '/:id/status',
+  authController.protect,
+  authController.restrictTo('organizer', 'admin'),
+  eventController.getAttendeeStatus,
+);
+
+router.get(
+  '/:id/top-buyers',
+  authController.protect,
+  authController.restrictTo('organizer', 'admin'),
+  eventController.getTopBuyers,
+);
+
+router.get(
+  '/:id/revenue-by-ticket-type',
+  authController.protect,
+  authController.restrictTo('organizer', 'admin'),
+  eventController.getRevenueByTicketType,
+);
 
 router
   .route('/:id')
@@ -86,10 +110,6 @@ router
     eventController.updateEvent,
   )
   .delete(authController.restrictTo('admin'), eventController.deleteEvent);
-// router
-//   .route('/:id')
-//   .patch(authController.restrictTo('admin'), eventController.updateEvent)
-//   .delete(authController.restrictTo('admin'), eventController.deleteEvent);
 
 module.exports = router;
 

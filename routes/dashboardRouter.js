@@ -13,6 +13,13 @@ router.get(
 );
 
 router.get(
+  '/admin/reports',
+  authController.protect,
+  // authController.restrictTo('admin'),
+  dashboardController.getAdminReports,
+);
+
+router.get(
   '/organizer',
   authController.restrictTo('organizer'),
   dashboardController.getOrganizerDashboard,

@@ -22,7 +22,7 @@ const scannerAuthRouter = require('./routes/scannerAuthRouter');
 const checkInRouter = require('./routes/checkInRouter');
 const scannerDashboardRouter = require('./routes/scannerDashboardRouter');
 const attendeeRouter = require('./routes/attendeeRouter');
-const analyticsRouter = require('./routes/analyticsRouter');
+// const analyticsRouter = require('./routes/analyticsRouter');
 
 const app = express();
 
@@ -104,7 +104,7 @@ app.use('/api/v1/check-in', checkInRouter);
 app.use('/api/v1/scanner-dashboard', scannerDashboardRouter);
 app.use('/api/v1/attendees', attendeeRouter);
 
-app.use('/api/v1/analytics', analyticsRouter);
+// app.use('/api/v1/analytics', analyticsRouter);
 
 // Unknown routes
 app.all('/*splat', (req, res, next) => {

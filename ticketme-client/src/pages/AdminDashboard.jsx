@@ -13,10 +13,23 @@ import { Link } from 'react-router-dom';
 import AdminLayout from '../components/admin/AdminLayout';
 import Spinner from '../components/ui/Spinner';
 import api from '../services/api';
+import SummaryCards from '../components/dashboardMainAdmin/SummaryCards';
+import RevenueChart from '../components/dashboardMainAdmin/RevenueChart';
+import TicketStatusChart from '../components/dashboardMainAdmin/TicketStatusChart';
+import TopSellingEvents from '../components/dashboardMainAdmin/TopSellingEvents';
+import RecentEvents from '../components/dashboardMainAdmin/RecentEvents';
+import LatestUsers from '../components/dashboardMainAdmin/LatestUsers';
 
 function AdminDashboard() {
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({});
+  // const [stats, setStats] = useState({});
+  const [stats, setStats] = useState({
+    recentEvents: [],
+    latestUsers: [],
+    topSellingEvents: [],
+    monthlyRevenue: [],
+    ticketStatus: [],
+  });
 
   useEffect(() => {
     fetchDashboard();
@@ -89,35 +102,39 @@ function AdminDashboard() {
         Admin Dashboard
       </h1>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {cards.map((card) => (
-          <div
-            key={card.title}
-            className="rounded-3xl bg-white p-6 shadow dark:bg-slate-900"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-slate-500">{card.title}</p>
+      {/* Summary Cards */}
+      <SummaryCards stats={stats} />
 
-                <h2 className="mt-2 text-3xl font-black dark:text-white">
-                  {card.value}
-                </h2>
-              </div>
+      {/* Revenue + Ticket Status */}
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <div className="rounded-3xl bg-white p-8 shadow">
+          <RevenueChart data={stats.monthlyRevenue} />
+        </div>
 
-              <div
-                className={`flex h-14 w-14 items-center justify-center rounded-2xl ${card.color}`}
-              >
-                <card.icon className="text-white" size={28} />
-              </div>
-            </div>
-          </div>
-        ))}
+        <div className="rounded-3xl bg-white p-8 shadow">
+          <TicketStatusChart data={stats.ticketStatus} />
+        </div>
       </div>
 
-      <div className="mt-10 rounded-3xl bg-white p-8 shadow dark:bg-slate-900">
-        <h2 className="mb-6 text-2xl font-bold dark:text-white">
-          Quick Actions
-        </h2>
+      {/* Top Selling Events + Recent Events */}
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <div className="rounded-3xl bg-white p-8 shadow">
+          <TopSellingEvents events={stats.topSellingEvents} />
+        </div>
+
+        <div className="rounded-3xl bg-white p-8 shadow">
+          <RecentEvents events={stats.recentEvents} />
+        </div>
+      </div>
+
+      {/* Latest Users */}
+      <div className="mt-10 rounded-3xl bg-white p-8 shadow">
+        <LatestUsers users={stats.latestUsers} />
+      </div>
+
+      {/* Quick Actions */}
+      <div className="mt-10 rounded-3xl bg-white p-8 shadow">
+        <h2 className="mb-6 text-2xl font-bold">Quick Actions</h2>
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           <Link

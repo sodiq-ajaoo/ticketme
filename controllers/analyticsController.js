@@ -1,116 +1,135 @@
-const Ticket = require('../models/ticketModel');
-const Event = require('../models/eventModel');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
+// const Payment = require('../models/paymentModel');
+// const Ticket = require('../models/ticketModel');
 
-exports.getEventAnalytics = catchAsync(async (req, res, next) => {
-  const { eventId } = req.params;
+// exports.getEventDashboard = catchAsync(async (req, res, next) => {
+//   try {
+//     // EVERYTHING currently inside getEventDashboard goes here
+//     console.log('PARAM ID:', req.params.id);
+//     const event = await Event.findById(req.params.id).populate(
+//       'organizers',
+//       'name email',
+//     );
+//     console.log('EVENT:', event);
 
-  const event = await Event.findById(eventId);
+//     if (!event) {
+//       return next(new AppError('No event found with that ID', 404));
+//     }
 
-  if (!event) {
-    return next(new AppError('Event not found.', 404));
-  }
+//     const totalTickets = await Ticket.countDocuments({
+//       event: event._id,
+//     });
 
-  // Organizer or Admin only
-  const isOrganizer =
-    event.organizers &&
-    event.organizers.some(
-      (organizer) =>
-        (organizer._id || organizer).toString() === req.user.id.toString(),
-    );
+//     const ticketsSold = await Ticket.countDocuments({
+//       event: event._id,
+//       status: { $in: ['paid', 'checked-in'] },
+//     });
 
-  const isAdmin = req.user.role === 'admin';
+//     const checkedIn = await Ticket.countDocuments({
+//       event: event._id,
+//       status: 'checked-in',
+//     });
 
-  if (!isOrganizer && !isAdmin) {
-    return next(
-      new AppError('You do not have permission to view analytics.', 403),
-    );
-  }
+//     const soldTicketsData = await Ticket.find({
+//       event: event._id,
+//       status: { $in: ['paid', 'checked-in'] },
+//     });
 
-  // Paid + Checked-in tickets
-  const paidTickets = await Ticket.find({
-    event: eventId,
-    status: { $in: ['paid', 'checked-in'] },
-  });
+//     const totalRevenue = soldTicketsData.reduce(
+//       (sum, ticket) => sum + ticket.totalPrice,
+//       0,
+//     );
 
-  // Checked-in tickets
-  const checkedInTickets = await Ticket.find({
-    event: eventId,
-    status: 'checked-in',
-  });
+//     res.status(200).json({
+//       status: 'success',
+//       data: {
+//         event,
 
-  const totalTicketsSold = paidTickets.reduce(
-    (sum, ticket) => sum + ticket.quantity,
-    0,
-  );
+//         stats: {
+//           totalTickets,
+//           ticketsSold,
+//           ticketsRemaining: totalTickets - ticketsSold,
+//           checkedIn,
+//           totalRevenue,
+//         },
 
-  const totalCheckedIn = checkedInTickets.reduce(
-    (sum, ticket) => sum + ticket.quantity,
-    0,
-  );
+//         // ticketBreakdown,
+//       },
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     console.log(err.stack);
 
-  // Total revenue
-  const revenue = paidTickets.reduce(
-    (sum, ticket) => sum + ticket.totalPrice,
-    0,
-  );
+//     throw err;
+//   }
+// });
 
-  // Attendance %
-  // const attendanceRate =
-  //   paidTickets.length === 0
-  //     ? 0
-  //     : ((checkedInTickets.length / paidTickets.length) * 100).toFixed(1);
+// exports.getEventDashboard = catchAsync(async (req, res, next) => {
+//   console.log('STEP 1');
 
-  const attendanceRate =
-    totalTicketsSold === 0
-      ? 0
-      : ((totalCheckedIn / totalTicketsSold) * 100).toFixed(1);
+//   const event = await Event.findById(req.params.id).populate(
+//     'organizers',
+//     'name email',
+//   );
 
-  // Revenue & sales by ticket type
-  const ticketBreakdown = await Ticket.aggregate([
-    {
-      $match: {
-        event: event._id,
-        status: { $in: ['paid', 'checked-in'] },
-      },
-    },
-    {
-      $group: {
-        _id: '$ticketTypeName',
-        sold: {
-          $sum: '$quantity',
-        },
-        revenue: {
-          $sum: '$totalPrice',
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        ticketType: '$_id',
-        sold: 1,
-        revenue: 1,
-      },
-    },
-    {
-      $sort: {
-        revenue: -1,
-      },
-    },
-  ]);
+//   console.log('STEP 2');
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      event: event.name,
-      ticketsSold: totalTicketsSold,
-      ticketsCheckedIn: totalCheckedIn,
-      ticketsRemaining: totalTicketsSold - totalCheckedIn,
-      attendanceRate,
-      revenue,
-      ticketBreakdown,
-    },
-  });
-});
+//   const totalTickets = await Ticket.countDocuments({
+//     event: event._id,
+//   });
+
+//   console.log('STEP 3');
+
+//   const ticketsSold = await Ticket.countDocuments({
+//     event: event._id,
+//     status: { $in: ['paid', 'checked-in'] },
+//   });
+
+//   console.log('STEP 4');
+
+//   const checkedIn = await Ticket.countDocuments({
+//     event: event._id,
+//     status: 'checked-in',
+//   });
+
+//   console.log('STEP 5');
+
+//   const soldTicketsData = await Ticket.find({
+//     event: event._id,
+//     status: { $in: ['paid', 'checked-in'] },
+//   });
+
+//   console.log('STEP 6');
+
+//   const totalRevenue = soldTicketsData.reduce(
+//     (sum, ticket) => sum + ticket.totalPrice,
+//     0,
+//   );
+
+//   console.log('STEP 7');
+
+//   const ticketBreakdown = event.ticketTypes.map((type) => ({
+//     id: type._id,
+//     name: type.name,
+//     price: type.price,
+//     quantity: type.quantity,
+//     sold: type.sold,
+//     remaining: type.quantity - type.sold,
+//   }));
+
+//   console.log('STEP 8');
+
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       event,
+//       stats: {
+//         totalTickets,
+//         ticketsSold,
+//         ticketsRemaining: totalTickets - ticketsSold,
+//         checkedIn,
+//         totalRevenue,
+//       },
+//       ticketBreakdown,
+//     },
+//   });
+// });

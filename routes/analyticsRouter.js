@@ -1,12 +1,27 @@
-const express = require('express');
+// // const express = require('express');
 
-const analyticsController = require('../controllers/analyticsController');
-const authController = require('../controllers/authController');
+// // // const analyticsController = require('../controllers/analyticsController');
+// // const eventController = require('../controllers/eventController');
+// // const authController = require('../controllers/authController');
 
-const router = express.Router();
+// // const router = express.Router();
 
-router.use(authController.protect);
+// // router.use(authController.protect);
 
-router.get('/:eventId', analyticsController.getEventAnalytics);
+// // // router.get('/:eventId', analyticsController.getEventAnalytics);
+// // router.get('/:id', analyticsController.getEventDashboard);
 
-module.exports = router;
+// // module.exports = router;
+
+// const express = require('express');
+
+// const eventController = require('../controllers/eventController');
+// const authController = require('../controllers/authController');
+
+// const router = express.Router();
+
+// router.use(authController.protect);
+
+// router.get('/:id', eventController.getEventDashboard);
+
+// module.exports = router;

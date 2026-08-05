@@ -183,3 +183,33 @@ export const getSingleEvent = async (id) => {
   const res = await api.get(`/events/${id}`);
   return res.data;
 };
+
+// export const getEventAnalytics = async (id) => {
+//   const res = await api.get(`/events/${id}`);
+//   return res.data.data;
+// };
+
+export const getEventAnalytics = async (id) => {
+  const res = await api.get(`/events/${id}/dashboard`);
+  return res.data.data;
+};
+
+export const getSalesTrend = async (id) => {
+  const res = await api.get(`/events/${id}/sales-trend`);
+  return res.data.data;
+};
+
+export const getAttendeeStatus = async (id) => {
+  const res = await api.get(`/events/${id}/status`);
+  return res.data.data;
+};
+
+export const getTopBuyers = async (id) => {
+  const res = await api.get(`/events/${id}/top-buyers`);
+  return res.data.data;
+};
+
+export const getRevenueByTicketType = async (id) => {
+  const res = await api.get(`/events/${id}/revenue-by-ticket-type`);
+  return res.data.data;
+};

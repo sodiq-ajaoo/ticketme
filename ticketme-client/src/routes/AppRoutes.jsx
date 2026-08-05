@@ -29,6 +29,7 @@ import UpdatePassword from '../pages/UpdatePassword';
 import DeleteAccount from '../pages/DeleteAccount';
 import ManageOrganizers from '../pages/ManageOrganizers';
 import AssignOrganizer from '../pages/AssignOrganizer';
+import EventAnalytics from '../pages/EventAnalytics';
 function AppRoutes() {
   return (
     <Routes>
@@ -145,6 +146,20 @@ function AppRoutes() {
           element={
             <ProtectedRoute roles={['admin']}>
               <EditUser />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* <Route
+          path="/admin/events/:id/dashboard"
+          element={<EventAnalytics />}
+        /> */}
+
+        <Route
+          path="/admin/events/:id/analytics"
+          element={
+            <ProtectedRoute roles={['admin']}>
+              <EventAnalytics />
             </ProtectedRoute>
           }
         />

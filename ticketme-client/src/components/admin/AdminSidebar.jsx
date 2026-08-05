@@ -52,6 +52,7 @@ const menu = [
     title: 'Analytics',
     path: '/admin/analytics',
   },
+
   {
     icon: Settings,
     title: 'Settings',

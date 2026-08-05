@@ -1,0 +1,298 @@
+[
+  {
+    "name": "Lagos Music Festival",
+    "description": "The biggest music festival in Lagos.",
+    "summary": "Live performances by top artists.",
+    "category": "festival",
+    "venue": "Eko Hotel",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.3792, 6.5244],
+      "address": "Victoria Island",
+      "description": "Eko Hotel"
+    },
+    "state": "Lagos",
+    "city": "Lagos",
+    "startDate": "2026-08-12",
+    "endDate": "2026-08-13",
+    "imageCover": "festival-1.jpg",
+    "images": ["festival-1.jpg", "festival-2.jpg"],
+    "ticketTypes": [
+      {
+        "name": "Regular",
+        "price": 5000,
+        "quantity": 500
+      },
+      {
+        "name": "VIP",
+        "price": 15000,
+        "quantity": 100
+      }
+    ]
+  },
+  {
+    "name": "Tech Innovators Conference",
+    "description": "Annual technology conference.",
+    "summary": "Networking and innovation.",
+    "category": "conference",
+    "venue": "Landmark Centre",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.4258, 6.4281],
+      "address": "Victoria Island",
+      "description": "Landmark Centre"
+    },
+    "state": "Lagos",
+    "city": "Lagos",
+    "startDate": "2026-09-15",
+    "endDate": "2026-09-17",
+    "imageCover": "conference.jpg",
+    "ticketTypes": [
+      {
+        "name": "Regular",
+        "price": 20000,
+        "quantity": 300
+      }
+    ]
+  },
+  {
+    "name": "Abuja Business Summit",
+    "description": "Business leaders gathering.",
+    "summary": "Entrepreneurship and investment.",
+    "category": "conference",
+    "venue": "International Conference Centre",
+    "location": {
+      "type": "Point",
+      "coordinates": [7.3986, 9.0765],
+      "address": "Abuja",
+      "description": "ICC Abuja"
+    },
+    "state": "Abuja",
+    "city": "Abuja",
+    "startDate": "2026-10-05",
+    "imageCover": "abuja.jpg",
+    "ticketTypes": [
+      {
+        "name": "Standard",
+        "price": 25000,
+        "quantity": 400
+      }
+    ]
+  },
+  {
+    "name": "Ibadan Comedy Night",
+    "description": "Stand-up comedy show.",
+    "summary": "Laugh all night.",
+    "category": "comedy",
+    "venue": "Mauve 21",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.947, 7.3775],
+      "address": "Ibadan",
+      "description": "Mauve 21"
+    },
+    "state": "Oyo",
+    "city": "Ibadan",
+    "startDate": "2026-11-20",
+    "imageCover": "comedy.jpg",
+    "ticketTypes": [
+      {
+        "name": "Regular",
+        "price": 3000,
+        "quantity": 500
+      }
+    ]
+  },
+  {
+    "name": "Football Championship",
+    "description": "National football final.",
+    "summary": "Top clubs compete.",
+    "category": "sports",
+    "venue": "National Stadium",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.3619, 6.5345],
+      "address": "Surulere",
+      "description": "National Stadium"
+    },
+    "state": "Lagos",
+    "city": "Lagos",
+    "startDate": "2026-12-12",
+    "imageCover": "football.jpg",
+    "ticketTypes": [
+      {
+        "name": "Regular",
+        "price": 4000,
+        "quantity": 2000
+      }
+    ]
+  },
+  {
+    "name": "Photography Workshop",
+    "description": "Learn professional photography.",
+    "summary": "Hands-on sessions.",
+    "category": "workshop",
+    "venue": "Creative Hub",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.4219, 6.4698],
+      "address": "Lekki",
+      "description": "Creative Hub"
+    },
+    "state": "Lagos",
+    "city": "Lekki",
+    "startDate": "2026-07-30",
+    "imageCover": "photo.jpg",
+    "ticketTypes": [
+      {
+        "name": "Participant",
+        "price": 10000,
+        "quantity": 100
+      }
+    ]
+  },
+  {
+    "name": "Startup Pitch Day",
+    "description": "Pitch to investors.",
+    "summary": "Funding opportunities.",
+    "category": "seminar",
+    "venue": "Innovation Hub",
+    "location": {
+      "type": "Point",
+      "coordinates": [7.489, 9.058],
+      "address": "Abuja",
+      "description": "Innovation Hub"
+    },
+    "state": "Abuja",
+    "city": "Abuja",
+    "startDate": "2026-08-25",
+    "imageCover": "startup.jpg",
+    "ticketTypes": [
+      {
+        "name": "Entry",
+        "price": 5000,
+        "quantity": 250
+      }
+    ]
+  },
+  {
+    "name": "Gospel Worship Experience",
+    "description": "Night of worship.",
+    "summary": "Praise and worship.",
+    "category": "religious",
+    "venue": "Redemption Camp",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.5833, 6.8333],
+      "address": "Mowe",
+      "description": "RCCG Camp"
+    },
+    "state": "Ogun",
+    "city": "Mowe",
+    "startDate": "2026-09-01",
+    "imageCover": "worship.jpg",
+    "ticketTypes": [
+      {
+        "name": "Free",
+        "price": 0,
+        "quantity": 5000
+      }
+    ]
+  },
+  {
+    "name": "Food Carnival",
+    "description": "Taste dishes from across Nigeria.",
+    "summary": "Food and fun.",
+    "category": "festival",
+    "venue": "Freedom Park",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.3947, 6.4502],
+      "address": "Lagos Island",
+      "description": "Freedom Park"
+    },
+    "state": "Lagos",
+    "city": "Lagos",
+    "startDate": "2026-10-10",
+    "imageCover": "food.jpg",
+    "ticketTypes": [
+      {
+        "name": "Entry",
+        "price": 2000,
+        "quantity": 1000
+      }
+    ]
+  },
+  {
+    "name": "Fashion Expo",
+    "description": "Latest fashion collections.",
+    "summary": "Runway shows.",
+    "category": "other",
+    "venue": "Expo Centre",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.45, 6.44],
+      "address": "Lekki",
+      "description": "Expo Centre"
+    },
+    "state": "Lagos",
+    "city": "Lekki",
+    "startDate": "2026-11-11",
+    "imageCover": "fashion.jpg",
+    "ticketTypes": [
+      {
+        "name": "General",
+        "price": 7000,
+        "quantity": 800
+      }
+    ]
+  },
+  {
+    "name": "Art Exhibition",
+    "description": "Modern art display.",
+    "summary": "Paintings and sculptures.",
+    "category": "other",
+    "venue": "Nike Art Gallery",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.4799, 6.4354],
+      "address": "Lekki",
+      "description": "Nike Gallery"
+    },
+    "state": "Lagos",
+    "city": "Lekki",
+    "startDate": "2026-09-20",
+    "imageCover": "art.jpg",
+    "ticketTypes": [
+      {
+        "name": "Visitor",
+        "price": 1500,
+        "quantity": 600
+      }
+    ]
+  },
+  {
+    "name": "Coding Bootcamp",
+    "description": "Learn full-stack development.",
+    "summary": "JavaScript, Node.js and React.",
+    "category": "workshop",
+    "venue": "Tech Hub",
+    "location": {
+      "type": "Point",
+      "coordinates": [3.3675, 6.5244],
+      "address": "Yaba",
+      "description": "CcHub"
+    },
+    "state": "Lagos",
+    "city": "Yaba",
+    "startDate": "2026-08-01",
+    "imageCover": "coding.jpg",
+    "ticketTypes": [
+      {
+        "name": "Student",
+        "price": 12000,
+        "quantity": 200
+      }
+    ]
+  }
+]
